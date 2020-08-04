@@ -1,0 +1,7 @@
+ 进入https://github.com/vuejs/vue-devtools选择master(主)分支下载放入项目中
+ 进入vue-devtools-master 目录结构cmd回车
+ 输入cnpm install 下载完成
+ 输入npm run build打包 
+ 进入谷歌更多工具下的扩展程序下的加载已解压的扩展程序选择Chrome
+然后退出谷歌重启就好了
+ 
