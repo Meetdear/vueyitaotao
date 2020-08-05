@@ -25,7 +25,7 @@
          }
         },
         mounted(){
-          storage.setItem('a',1);
+          // storage.setItem('a',"user");
         }
       }
  </script>
