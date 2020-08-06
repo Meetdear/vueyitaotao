@@ -13,6 +13,7 @@ if (mock) {
 }
 //根据前端的跨域方式做调整 /a/a : /api/a/b => /a/b
 axios.defaults.baseURL = '/api'; //接口代理
+// axios.defaults.baseURL = '/api'; //接口代理
 axios.defaults.timeout = 8000;
 //根据环境变量来获取不同的二请求地址
 // axios.defaults.baseURL = env.baseURL; //接口代理
