@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 Mock.mock('/api/user/login', {
     "status": 0,
     "data": {
-        "id:1001-1100": 12,
+        "id:1001-1100": 0,
         "username": "@cname",
         "email": "admin@51purse.com",
         "phone": null,

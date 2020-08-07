@@ -23,7 +23,74 @@
                 <div class="header-menu">
                     <div class="item-menu">
                         <span > 小米手机</span>
-                        <div class="children"></div>
+                        <div class="children">
+                             <ul>
+                                 <li class="product" v-for="(item,index) in phoneList" :Key="index">
+                                     <a :href="'/#/product/'+item.id" target="_blank">
+                                        <div class="pro-img">
+                                            <img :src="item.mainImage" :alt="item.subtitle">
+                                        </div>
+                                        <div class="pro-name">{{item.name}}</div>
+                                        <div class="pro-price">{{item.price | currency}}</div>
+                                     </a>
+                                 </li>
+                             </ul>
+                               <ul >
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/item-box-1.png" alt="">
+                                        </div>
+                                        <div class="pro-name">小米cc9</div>
+                                        <div class="pro-price">1799元</div>
+                                     </a>
+                                 </li>
+                             </ul>
+                              <ul >
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/item-box-1.png" alt="">
+                                        </div>
+                                        <div class="pro-name">小米cc9</div>
+                                        <div class="pro-price">1799元</div>
+                                     </a>
+                                 </li>
+                             </ul>
+                              <ul>
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/item-box-1.png" alt="">
+                                        </div>
+                                        <div class="pro-name">小米cc9</div>
+                                        <div class="pro-price">1799元</div>
+                                     </a>
+                                 </li>
+                             </ul>
+                             <ul >
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/item-box-1.png" alt="">
+                                        </div>
+                                          <div class="pro-name">小米cc9</div>
+                                        <div class="pro-price">1799元</div>
+                                     </a>
+                                 </li>
+                             </ul>
+                              <ul>
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/item-box-1.png" alt="">
+                                        </div>
+                                        <div class="pro-name">小米cc9</div>
+                                        <div class="pro-price">1799元</div>
+                                     </a>
+                                 </li>
+                             </ul>  
+                        </div>
                     </div>
                     <div class="item-menu">
                         <span > RedMi红米</span>
@@ -31,13 +98,25 @@
                     </div>
                     <div class="item-menu">
                         <span >电视</span>
-                        <div class="children"></div>
+                        <div class="children">
+                            <ul>
+                                 <li class="product">
+                                     <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-1.jpg " alt="">
+                                        </div>
+                                        <div class="pro-name">小米壁画电视 65英寸</div>
+                                        <div class="pro-price">6999元</div>
+                                     </a>
+                                 </li>
+                             </ul>  
+                        </div>
                     </div>
                 </div>
                <div class="header-search">
                    <div class="wrapper">
                        <input type="text " name="keyword">
-
+                       <a href="javacript:;"></a>
                    </div>
                </div>
             </div>
@@ -47,12 +126,41 @@
 <script>
 export default {
     name:'nav-header',
-    
+    data(){
+        return{
+            username:'jack',
+         phoneList:[]
+        }
+    },
+    filters:{
+        currency(val){
+            if(!val) return '0.00';
+            return '￥' + val.toFixed(2)+'元';
+        }
+    },
+    mounted(){
+           this.getPriductList()
+    },
+    methods:{
+      getPriductList(){
+          this.axios.get('/products',{
+              params:{
+               categoryId:'100012'
+              }
+          }).then((res)=>{
+             // Math.max(res.list,6)>6
+             if(res.list>6){
+                 this.phoneList=res.list.slice(0,6);
+             }
+          })
+      }
+    }
 }
 </script>
 <style lang="scss">
  @import '../assets/scss/base.scss';
  @import '../assets/scss/mixin.scss';
+ @import '../assets/scss/config.scss';
     .header{
         .nav-topbar{
             height:39px;
@@ -81,6 +189,7 @@ export default {
         }
         .nav-header{
            .container{
+               position: relative;
                height:112px;
                @include flex();
               .header-logo{
@@ -135,7 +244,66 @@ export default {
                   
               }
               &:hover{
-      
+                 color:$colorA;
+                 .children{
+                     height:220px;
+                     opacity: 1;
+                 }
+              }
+              .children{
+                  position: absolute;
+                  top:112px;
+                  width:1226px;
+                  left:0;
+                  height:0;
+                  overflow: hidden;
+                  opacity: 0;
+                  border-top: 1px solid #e5e5e5;
+                  box-shadow: 0px 7px 6px 0px rgba(0,0,0,.11);
+                  z-index: 10;
+                  transition:all .5s; 
+                  .product{
+                      position: relative;
+                      float: left;
+                      width:16.6%;
+                      height: 220px;
+                      font-size:12px;
+                      line-height: 12px;
+                      text-align:center;
+                       a{
+                         display: inline-block;
+                          } 
+                      img{
+                          height: 111px;
+                          width:auto;
+                          margin-top:26px;
+                         
+                      }
+                      .pro-img{
+                          height: 137px;
+                      }
+                      .pro-name{
+                          font-weight: bold;
+                          margin-top:19px;
+                          margin-bottom: 8px;
+                          color:$colorB;
+                      }
+                      .pro-price{
+                          color:$colorA;
+                      }
+                        &::before{
+                      content:'';
+                      position: absolute;
+                      top:28px;
+                      right: 0;
+                      border-left:1px solid $colorF;
+                      height:100px;
+                      width:1px;
+                  }
+                  &:last-child::before{
+                      display: none;
+                  }
+                  }
               }
            }
            }
@@ -156,12 +324,14 @@ export default {
                     padding-left: 14px;
                 }
                 a{
-                    display: inline-block;
-                    width:18px;
-                    height: 18px;
-                    background: url('/imgs/icon-search.png') no-repeat center;
-                    background-size: contain;
-                    margin-left:20px ;
+                     @include bgImg(18px,18px,'/imgs/icon-search.png');
+                    // display: inline-block;
+                    // width:18px;
+                    // height: 18px;
+                    // background: url('/imgs/icon-search.png') no-repeat center;
+                    // background-size: contain;
+                    margin-left:17px ;
+                    
                 }
             }
         }

@@ -29,9 +29,9 @@
           //   this.res=res;
           // })
           //本地集成mockjs实现数据mock
-          this.axios.get('/user/login.json').then((res)=>{
-            this.res=res;
-          })
+            this.axios.get('/user/login.json').then((res)=>{
+              this.res=res;
+            })
           //  storage.clear('a','user');
         }
       }
