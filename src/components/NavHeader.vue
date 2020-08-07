@@ -15,7 +15,33 @@
                 </div>
             </div>
         </div>
-        <div class="nav-header"></div>
+        <div class="nav-header">
+            <div class="container">
+                <div class="header-logo">
+                   <a href="/#/index"></a>
+                </div>
+                <div class="header-menu">
+                    <div class="item-menu">
+                        <span > 小米手机</span>
+                        <div class="children"></div>
+                    </div>
+                    <div class="item-menu">
+                        <span > RedMi红米</span>
+                        <div class="children"></div>
+                    </div>
+                    <div class="item-menu">
+                        <span >电视</span>
+                        <div class="children"></div>
+                    </div>
+                </div>
+               <div class="header-search">
+                   <div class="wrapper">
+                       <input type="text " name="keyword">
+
+                   </div>
+               </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -25,6 +51,8 @@ export default {
 }
 </script>
 <style lang="scss">
+ @import '../assets/scss/base.scss';
+ @import '../assets/scss/mixin.scss';
     .header{
         .nav-topbar{
             height:39px;
@@ -32,12 +60,7 @@ export default {
             background-color: #333;
             color:#b0b0b0;
              .container{
-            width:1226px;
-            margin-right:auto;
-            margin-left:auto;
-             display: flex;
-             justify-content: space-between;
-             align-content: center;
+              @include flex();
              a{
                  display: inline-block;
                  color: #b0b0b0;
@@ -45,11 +68,105 @@ export default {
              }
              .my-cart{
                  width:110px;
-                 background-color: #666;
+                 background-color: #f60;
                  text-align: center;
+                 color:#fff;
+                 .icon-cart{
+                    @include bgImg(16px,12px,'/imgs/icon-cart-checked.png');
+                   
+                       margin-right:4px;
+                 }
              }
           }
         }
-       
+        .nav-header{
+           .container{
+               height:112px;
+               @include flex();
+              .header-logo{
+                  display: inline-block;
+                  width:55px;
+                  height:55px;
+                    background-color: #f60;
+                  a{ 
+                      display: inline-block;
+                      width:110px;
+                      height: 55px;
+                      &:before{
+                          display: inline-block;
+                          content: ' ';
+                          @include bgImg(55px,55px,'/imgs/mi-logo.png',55px);
+                        
+                          background: url('/imgs/mi-logo.png') no-repeat center;
+                         background-size: 55px;
+                          transition:margin .2s;    
+                         
+                      }
+                        &:after{
+                          display: inline-block;
+                         // content: ' ';占位
+                          content: ' ';
+                          width:55px;
+                          height:55px;
+                          background: url('/imgs/mi-home.png') no-repeat center;
+                         background-size: 55px;
+                         
+                      }
+                      &:hover:before{
+                          margin-left:-55px;
+                          transition:margin .2s;
+                      }
+                  }
+                  
+              }
+                .header-menu{
+            display: inline-block;
+            width:643px;
+           padding-left: 209px;
+           .item-menu{
+             display: inline-block;
+             color:#333;
+             font-weight: bold;
+             font-size:16px;
+             line-height: 112px;
+             margin-right: 20px;
+              span{
+                  cursor: pointer;
+                  
+              }
+              &:hover{
+      
+              }
+           }
+           }
+        .header-search{
+            width:319px;
+            margin-top:40px;
+            .wrapper{
+                height:50px;
+                border:1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                input{
+                    border:none;
+                    box-sizing:  border-box;
+                    border-right: 1px solid #e0e0e0;
+                    width: 264px;
+                    height:50px;
+                    padding-left: 14px;
+                }
+                a{
+                    display: inline-block;
+                    width:18px;
+                    height: 18px;
+                    background: url('/imgs/icon-search.png') no-repeat center;
+                    background-size: contain;
+                    margin-left:20px ;
+                }
+            }
+        }
+        }
+      
+        }
     }
 </style>
