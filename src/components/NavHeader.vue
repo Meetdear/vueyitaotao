@@ -9,9 +9,10 @@
                     <a href="javascript:;">协议规则</a>
                 </div>
                 <div class="topbar-user">
-                    <a href="javascript:;">登录</a>
-                    <a href="javascript:;">注册</a>
-                    <a href="javascript:;" class="my-cart"><span class="icon-cart"></span> 购物车</a>
+                    <a href="javascript:;" v-if="username">{{username}}</a>
+                    <a href="javascript:;" v-if="!username" @click="login">登录</a>
+                    <a href="javascript:;"  v-if="username" >我的订单</a>
+                    <a href="javascript:;"  @click="goToCart" class="my-cart"><span class="icon-cart"></span> 购物车</a>
                 </div>
             </div>
         </div>
@@ -35,61 +36,7 @@
                                      </a>
                                  </li>
                              </ul>
-                               <ul >
-                                 <li class="product">
-                                     <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="/imgs/item-box-1.png" alt="">
-                                        </div>
-                                        <div class="pro-name">小米cc9</div>
-                                        <div class="pro-price">1799元</div>
-                                     </a>
-                                 </li>
-                             </ul>
-                              <ul >
-                                 <li class="product">
-                                     <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="/imgs/item-box-1.png" alt="">
-                                        </div>
-                                        <div class="pro-name">小米cc9</div>
-                                        <div class="pro-price">1799元</div>
-                                     </a>
-                                 </li>
-                             </ul>
-                              <ul>
-                                 <li class="product">
-                                     <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="/imgs/item-box-1.png" alt="">
-                                        </div>
-                                        <div class="pro-name">小米cc9</div>
-                                        <div class="pro-price">1799元</div>
-                                     </a>
-                                 </li>
-                             </ul>
-                             <ul >
-                                 <li class="product">
-                                     <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="/imgs/item-box-1.png" alt="">
-                                        </div>
-                                          <div class="pro-name">小米cc9</div>
-                                        <div class="pro-price">1799元</div>
-                                     </a>
-                                 </li>
-                             </ul>
-                              <ul>
-                                 <li class="product">
-                                     <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="/imgs/item-box-1.png" alt="">
-                                        </div>
-                                        <div class="pro-name">小米cc9</div>
-                                        <div class="pro-price">1799元</div>
-                                     </a>
-                                 </li>
-                             </ul>  
+                              
                         </div>
                     </div>
                     <div class="item-menu">
@@ -128,7 +75,7 @@ export default {
     name:'nav-header',
     data(){
         return{
-            username:'jack',
+         username:'',
          phoneList:[]
         }
     },
@@ -139,20 +86,28 @@ export default {
         }
     },
     mounted(){
-           this.getPriductList()
+           this.getProductList();
     },
     methods:{
-      getPriductList(){
+        login(){
+            this.$router.push("/login");
+        },
+      getProductList(){
           this.axios.get('/products',{
               params:{
-               categoryId:'100012'
+               categoryId:'100012',
+               pageSize:6
               }
           }).then((res)=>{
              // Math.max(res.list,6)>6
-             if(res.list>6){
-                 this.phoneList=res.list.slice(0,6);
-             }
+            //  if(res.list.length>=6){
+                  //slice数组的截取
+                 this.phoneList=res.list;
+             
           })
+      },
+      goToCart(){
+          this.$router.push("/cart");
       }
     }
 }
@@ -162,6 +117,7 @@ export default {
  @import '../assets/scss/mixin.scss';
  @import '../assets/scss/config.scss';
     .header{
+      
         .nav-topbar{
             height:39px;
             line-height: 39px;
@@ -188,6 +144,7 @@ export default {
           }
         }
         .nav-header{
+             
            .container{
                position: relative;
                height:112px;
@@ -244,13 +201,16 @@ export default {
                   
               }
               &:hover{
+                
                  color:$colorA;
                  .children{
                      height:220px;
                      opacity: 1;
+                    
                  }
               }
               .children{
+                    background-color: #fff; 
                   position: absolute;
                   top:112px;
                   width:1226px;
@@ -266,6 +226,7 @@ export default {
                       position: relative;
                       float: left;
                       width:16.6%;
+                      box-sizing: border-box;
                       height: 220px;
                       font-size:12px;
                       line-height: 12px;
