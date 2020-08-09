@@ -71,7 +71,7 @@
     </div>
 </template>
 <script>
-export default {
+export default{
     name:'nav-header',
     data(){
         return{
@@ -96,7 +96,7 @@ export default {
           this.axios.get('/products',{
               params:{
                categoryId:'100012',
-               pageSize:6
+                pageSize:6
               }
           }).then((res)=>{
              // Math.max(res.list,6)>6
@@ -117,7 +117,6 @@ export default {
  @import '../assets/scss/mixin.scss';
  @import '../assets/scss/config.scss';
     .header{
-      
         .nav-topbar{
             height:39px;
             line-height: 39px;
@@ -135,16 +134,15 @@ export default {
                  background-color: #f60;
                  text-align: center;
                  color:#fff;
+                  margin-right:0;
                  .icon-cart{
                     @include bgImg(16px,12px,'/imgs/icon-cart-checked.png');
-                   
                        margin-right:4px;
                  }
              }
           }
         }
         .nav-header{
-             
            .container{
                position: relative;
                height:112px;
@@ -183,9 +181,8 @@ export default {
                           transition:margin .2s;
                       }
                   }
-                  
               }
-                .header-menu{
+          .header-menu{
             display: inline-block;
             width:643px;
            padding-left: 209px;
@@ -198,19 +195,16 @@ export default {
              margin-right: 20px;
               span{
                   cursor: pointer;
-                  
               }
               &:hover{
-                
                  color:$colorA;
                  .children{
                      height:220px;
                      opacity: 1;
-                    
                  }
               }
               .children{
-                    background-color: #fff; 
+                  background-color: #fff; 
                   position: absolute;
                   top:112px;
                   width:1226px;
@@ -261,19 +255,19 @@ export default {
                       height:100px;
                       width:1px;
                   }
-                  &:last-child::before{
+                  &:last-child:before{
                       display: none;
                   }
-                  }
-              }
-           }
+                 }
+               }
+             }
            }
         .header-search{
             width:319px;
-            margin-top:40px;
+            // margin-top:40px;
             .wrapper{
                 height:50px;
-                border:1px solid #e0e0e0;
+               border:1px solid #e0e0e0;
                 display: flex;
                 align-items: center;
                 input{
