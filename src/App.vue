@@ -33,6 +33,18 @@
             //   this.res=res;
             // })
           //  storage.clear('a','user');
+        },
+        methods:{
+          getUser(){
+            this.axios.get('/user').then(()=>{
+              // to-doi 保存到vuex里面
+            })
+          },
+          getCartCount(){
+            this.axios.get('/carts/products/sum').then(()=>{
+            
+            })
+          }
         }
       }
  </script>
