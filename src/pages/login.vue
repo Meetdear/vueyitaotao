@@ -19,7 +19,7 @@
             </div>
             <div class="tips">
                 <div class="sms" @click="register">手机短信登录/注册</div>
-                <div class="reg">立即注册 <span>|</span>忘记密码</div>
+                <div class="reg">立即注册 <span>|</span> 忘记密码</div>
             </div>
         </div>
     </div>
@@ -31,7 +31,6 @@
         .bg-img{
               background:url('/imgs/login-bg.jpg') no-repeat center;
              .container{
-
                  width:1226px;
                  height:576px;
                  .login-form{
@@ -65,21 +64,42 @@
                                 margin-bottom:20px;
                                margin-left:30px;
                           input{
-                                  width: 100%;
-                                 height: 100%;
-                                  border: none;
-                                   padding: 18px;
-                                 
+                                width: 100%;
+                                height: 100%;
+                                border: none;
+                                padding: 18px; 
                           }
+                      }
+                      .btn-box{
+                         .btn{
+                       width:348px;
+                      line-height:50px;
+                      margin-top:10px;
+                      font-size:16px;
+                      height:50px;
+                      margin-left:30px;
+                       
+                      }
 
                       }
-                      .btn{
-                    width:348px;
-               line-height:35px;
-               margin-top:10px;
-              font-size:16px;
-              margin-left:30px;
+                      .tips{
+                          .sms{
+                              width:100%;
+                             
+                              text-align: center;
+                              font-size:14px;
+                              color:#ff7600;   
+                              margin-top:15px 
+                          }
+                           .reg{
+                              width:100%;
+                              color:#999;
+                              text-align: center;
+                              font-size:14px;
+                              margin-top:30px 
+                          }
                       }
+                  
                  }
              }
         }
@@ -105,6 +125,7 @@ export default {
                 password
             }).then((res)=>{
                this.$cookie.set('userId',res.id,{expires:'1M'});
+               this.$store.dispatch('saveUserName',res.username);
                //to-do
                 this.$router.push('/index');
             })

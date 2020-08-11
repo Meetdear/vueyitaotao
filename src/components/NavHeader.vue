@@ -75,7 +75,7 @@ export default{
     name:'nav-header',
     data(){
         return{
-         username:'',
+         username:this.$store.state.username,
          phoneList:[]
         }
     },
