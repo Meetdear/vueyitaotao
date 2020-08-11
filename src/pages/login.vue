@@ -106,6 +106,7 @@
     }
 </style>
 <script>
+import {mapActions} from 'vuex'
 export default {
     name:'login',
     data(){
@@ -125,11 +126,13 @@ export default {
                 password
             }).then((res)=>{
                this.$cookie.set('userId',res.id,{expires:'1M'});
-               this.$store.dispatch('saveUserName',res.username);
+            //    this.$store.dispatch('saveUserName',res.username);
+            this.saveUserName(res.username);
                //to-do
                 this.$router.push('/index');
             })
         },
+        ...mapActions(['saveUserName']),
         register(){
             this.axios.post('user/register',{
                 username:'admin1',
