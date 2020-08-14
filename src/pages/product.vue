@@ -49,29 +49,16 @@
         </div>
       </div>
     </div>
-<!-- 
-        <div class="item-video">
-            <div class="video-bg" @click="showSlid='slideDown'">
-
-            </div>
-            <div class="video-box">
-                <div class="overlay" v-if="showSlide=='slideDown'"></div>
-                <div class="video" :class="showSlide">
-                    <span class="icon-close"  @click="showSlid=slideUp"></span>
-                    <video src="/imgs/product/video.mp4" controls="controls" muted autoplay></video>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
- import { swiper, swiperSlide } from 'vue-awesome-swiper'
+ import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import ProductParam from './../components/ProductParam'
-export default {
+export default{
     name:'product',
-   components :{
-      swiper,
-      swiperSlide,
+   components:{
+      Swiper,
+      SwiperSlide,
       ProductParam
     },
     data(){
