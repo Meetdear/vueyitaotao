@@ -4,8 +4,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import App from './App.vue'
+import { Message } from 'element-ui'
 import store from './store'
+import App from './App.vue'
 //import是预编译加载 不希望永远被拦截所有不要用
 // import env from './env'
 //mock开关
@@ -32,11 +33,12 @@ axios.interceptors.response.use(function(response) {
         //判断如果是首页就不跳转 是的话就跳转
         if (path != '#/index') {
             window.location.href = '/#/login';
+            return Promise.reject(res);
         }
 
     } else {
-        alert(res.msg);
         //reject 抛出异常 报错
+        Message.warning(res.msg)
         return Promise.reject(res);
     }
 });

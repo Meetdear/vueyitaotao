@@ -62,6 +62,8 @@
 </template>
 <script>
  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+  import ProductParam from './../components/ProductParam'
+ import ServiceBar from './../components/ServiceBar';
 export default {
     name:'detail',
     data(){
@@ -82,11 +84,11 @@ export default {
   components:{
       Swiper,
       SwiperSlide,
-    //   ProductParam,
-    //   ServiceBar
+      ProductParam,
+      ServiceBar
   },
   mounted(){
-
+   this.getProductInfo();
   },
   methods:{
         getProductInfo(){
@@ -94,7 +96,159 @@ export default {
         this.axios.get(`/products/${id}`).then((res)=>{
            this.product=res;
         })
-        }
+      },
+      addCart(){
+        this.axios.post('/carts',{
+          productId:this.id,
+          selected:true
+        }).then((res={cartProductVoList:0})=>{
+          // this.$store.dispatch('saveCartCount',res.cartProductVoList.length);
+          this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
+          // this.$router.push('/cart');
+        }).catch((res)=>{
+          this.error=res;
+        })
+      }
     }
  }
 </script>
+
+<style lang="scss">
+  @import './../assets/scss/config.scss';
+  @import './../assets/scss/mixin.scss';
+      .detail{
+        .wrapper{
+          .swiper{
+            float: left;
+            width:642px;
+            height:617px;
+            margin-top:5px;
+            img{
+              width:100%;
+             height:100%;
+            }
+          }
+          .content{
+            float:right;
+            width:584px;
+            height:870px;
+            .item-title{
+              font-size: 28px;
+              padding-top: 30px;
+              padding-bottom: 16px;
+              height:26px;
+            }
+            .item-info{
+              font-size:14px;
+              height:36px;
+
+            }
+            .delivery{
+              font-size: 16px;
+              color:#ff6700;
+              margin-top:26px;
+              margin-bottom: 14px;
+              height:20px;
+            }
+            .item-price{
+              font-size:18px;
+              padding:12px 0 10px;
+              color:#ff6700;
+               .del{
+            font-size:14px;
+            color:#999;
+            margin-left:10px;
+            text-decoration:line-through;
+          }
+            }
+            .line{
+              margin-top:12px;
+              border-top:1px solid #e0e0e0;
+            }
+          .item-addr{
+            font-size:16px;
+            margin-top:20px;
+            padding: 30px 50px;
+            position: relative;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            .icon-loc{
+              position: absolute;
+              top:30px;
+              left:20px;
+                 @include bgImg(20px,20px,'/imgs/detail/icon-loc.png');
+            }
+            .addr{
+          
+              color:#666;
+            }
+            .stock{
+              margin-top:10px;
+              color:#ff6700;
+              }
+            }
+             .item-version,.item-color{
+                 margin-top:30px;
+                 h2{
+                   font-size:18px;
+                   color:#333; 
+                 }
+             }
+             .item-version,.item-color{
+                .phone{
+                  margin-top:20px;
+                  width:287px;
+                  height:50px;
+                  line-height: 50px;
+                  font-size:16px;
+                  color:#333;
+                  border:1px solid #e5e5e5;
+                  box-sizing: border-box;
+                  text-align: center;
+                  cursor: pointer;
+                  span{
+                    color:#666;
+                    font-weight: 400;
+                    margin-left:15px;
+                  }
+                  .color{
+                    display: inline-block;
+                    width:14px;
+                    height:14px;
+                    background-color: #666;
+                  }
+                  &.checked{
+                    border:1px solid #ff6700;
+                    color:#ff6700;
+                  }
+                }
+             }
+             .item-total{
+               height:108px;
+               background: #fafafa;
+                padding: 24px 33px 29px 30px;
+                font-size: 14px;
+                margin-top:50px;
+                margin-bottom: 30px;
+                   box-sizing: border-box;
+             .phone-total{
+               font-size: 24px;
+               color:#ff6700;
+               margin-top:18px;
+
+             }
+           }
+          }
+        }
+         .price-info{
+      background-color:#F3F3F3;
+      height:340px;
+      h2{
+        font-size:24px;
+        color:#333333;
+        padding-top:38px;
+        margin-bottom:30px;
+        }
+      }
+   }
+</style>
