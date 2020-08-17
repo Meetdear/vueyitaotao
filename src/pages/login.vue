@@ -106,7 +106,7 @@
     }
 </style>
 <script>
-import {mapActions} from 'vuex'
+import {mapActions} from 'vuex';
 export default {
     name:'login',
     data(){
@@ -139,7 +139,7 @@ export default {
                 password:'admin1',
                 email:'admin1@163.com'
             }).then((res)=>{// res=> 有vuexlink会报错
-                alert('注册成功')
+               this.$message.success('注册成功')
             })
         }
     }

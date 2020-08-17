@@ -2,6 +2,7 @@
     <div class="index">
         <div class="container">
            <div class="swiper-box">
+                 <!-- 左侧菜单 -->
                <div class="nav-menu">
                    <ul class="menu-wrap">
                        <li class="menu-item">
@@ -9,6 +10,7 @@
                            <div class="children">
                                <ul v-for="(item,i) in menuList" :key="i">
                                    <li v-for="(sub,j) in item" :key="j">
+                                          <!-- 判断当前sub 是否存在否则显示其他样式 -->
                                        <a v-bind:href="sub?'/#/product/'+sub.id:''">
                                            <img v-bind:src="sub?sub.img:'imgs/item-box-1.png'" >
                                            {{sub?sub.name : '小米9'}}
@@ -38,12 +40,14 @@
             <li class="menu-item">
               <a href="javascript:;">生活 箱包</a>
             </li>
-                   </ul>
-               </div>
+       </ul>
+    </div>
+      <!-- 轮播组件 -->
         <swiper  v-bind:options="swiperOption">
             <swiper-slide v-for="(item,index) in slideList" v-bind:key="index">
                 <a v-bind:href="'/#/product/'+item.id"><img v-bind:src="item.img"></a>
             </swiper-slide>
+              <!-- 轮播指示器 -->
              <div class="swiper-pagination" slot="pagination"></div>
           <div class="swiper-button-prev" slot="button-prev"></div>
           <div class="swiper-button-next" slot="button-next"></div>
@@ -105,9 +109,14 @@
     </div>
 </template>
 <script>
+// 加载组件,先import引入,再导入 export default
 import ServiceBar from './../components/ServiceBar'
+//子定义模态框
 import Modal from './../components/Modal'
+// 引入轮播组件
 import { Swiper, SwiperSlide,  directive } from 'vue-awesome-swiper'
+// 找到该文件
+ //import '_swiper@5.4.5@swiper/css/swiper.css'
 import 'swiper/css/swiper.css'
 export default{
     name:'index',
@@ -117,30 +126,33 @@ export default{
           directive,
           ServiceBar,
           Modal
-    }
-    ,
+    },
     data(){
          return{
         swiperOption:{
-        autoplay:true,
-        loop:true,
-        effect:"cube",
-        cubeEffect: {
+          autoplay:true,
+          loop:true,
+          effect:"cube",
+          cubeEffect: {
     //默认就是true
     // slideShadows: true,
     // shadow: true,
     shadowOffset: 100,
     shadowScale: 0.6
   },
+   //分页器，根据自定义名称查找
   pagination: {
+     // 根据css类名设置
     el: '.swiper-pagination',
     clickable :true,
   },
+    //翻页
   navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
-    }
-    },
+      }
+   },
+     //    轮播数组，本地
     slideList:[
         {
          id:'42',
@@ -163,6 +175,7 @@ export default{
          img:'/imgs/slider/slide-5.jpg'
     }
     ],
+     //    列表数组
     menuList:[
         [
             {
@@ -194,6 +207,7 @@ export default{
 
         ], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0],
     ],
+
     adsList:[
         {
             id:33,
@@ -218,9 +232,11 @@ export default{
         }
     },
     mounted(){
+         // 在挂载完毕后，调用该方法，发送请求
      this.init();
     },
     methods:{
+        // 定义方法
       init(){
           this.axios.get('/products',{
                params:{
@@ -232,6 +248,7 @@ export default{
              this.phoneList=[res.list.slice(0,4),res.list.slice(4,8)];
           })
       },
+       //添加购物车事件
       addCart(id){  
        this.axios.post('/cart',{
               productId:id,
@@ -239,6 +256,7 @@ export default{
           }).then((res)=>{
               //弹框 遮罩层
              this.showModal=true;  
+               //通过VUeX获取购物车商品的数量
              this.$store.dispatch('saveCartCount',res.cartTotalQuantity);   
           }).catch(()=>{
               this.showModal=true;

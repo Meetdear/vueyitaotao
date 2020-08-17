@@ -5,6 +5,7 @@ import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import App from './App.vue'
 //import是预编译加载 不希望永远被拦截所有不要用
@@ -42,16 +43,21 @@ axios.interceptors.response.use(function(response) {
         return Promise.reject(res);
     }
 });
-
+// 加载插件  把插件,加载到vue 实例中去
 Vue.use(VueAxios, axios);
 Vue.use(VueCookie);
+Vue.use(Message);
+// Vue.use(Message); //这里加入原型后,不用再次加入实例了.否则会出现bug 每次进入自动执行message
 Vue.use(VueLazyLoad, {
-    loading: '/imgs/loading-svg/loading-bars.svg'
-});
+        loading: '/imgs/loading-svg/loading-bars.svg'
+    })
+    // 加载到原型上 通过原型的方式扩展一个对象
+Vue.prototype.$message = Message; //这个没有爆错=>warning未定义
 Vue.config.productionTip = false
 
 new Vue({
-    store,
+    // 这部操作相当于  router :router
     router,
+    store,
     render: h => h(App)
 }).$mount('#app')
