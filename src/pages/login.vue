@@ -125,11 +125,24 @@ export default {
                 username,
                 password
             }).then((res)=>{
-               this.$cookie.set('userId',res.id,{expires:'1M'});
+               this.$cookie.set('userId',res.id,{expires:'Session'});
             //    this.$store.dispatch('saveUserName',res.username);
             this.saveUserName(res.username);
                //to-do
-                this.$router.push('/index');
+               
+                // this.$router.push('/index');
+                this.$router.push({
+                    path:'/index',
+                    query:{//query其实是get传参 params
+                        form:'login'
+                    }
+                });
+                this.$router.push({
+                   name:'index',
+                    params:{//query其实是get传参 params是post传参
+                        form:'login'
+                    }
+                });
             })
         },
         ...mapActions(['saveUserName']),

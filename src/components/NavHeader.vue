@@ -99,6 +99,11 @@ export default{
     },
     mounted(){
            this.getProductList();
+           let params =this.$route.params;
+           if(params && params.from=='login'){
+               this.getCartCount();
+           }
+           this.getCartCount();
     },
     methods:{
         login(){
@@ -118,6 +123,11 @@ export default{
              
           })
       },
+       getCartCount(){
+            this.axios.get('/carts/products/sum').then((res=0)=>{
+                this.$store.dispatch('saveCartCount',res);
+            })
+          },
       logout(){
            this.axios.post('/user/logout').then((res)=>{
              // Math.max(res.list,6)>6

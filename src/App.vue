@@ -16,11 +16,15 @@
         },
         data(){
          return {
+           
          }
         },
         mounted(){
-          this.getUser();
-          this.getCartCount();
+          if(this.$cookie.get('userId')){
+            this.getUser();
+            this.getCartCount();
+          }
+          
           //本地加载请;求静态json文件的形式
           // this.axios.get('/mock/user/login.json').then((res)=>{
           //   this.res=res;
@@ -36,6 +40,8 @@
           //  storage.clear('a','user');
         },
         methods:{
+            //  定义方法
+          //获取用户信息
           getUser(){
             this.axios.get('/user').then((res={})=>{
                console.log(res.username)
@@ -43,8 +49,11 @@
               // to-doi 保存到vuex里面
             })
           },
+           //获取购物车商品
           getCartCount(){
             this.axios.get('/carts/products/sum').then((res=0)=>{
+                  // 最终保存到vuex中去
+                  console.log(res)
                 this.$store.dispatch('saveCartCount',res);
             })
           }
