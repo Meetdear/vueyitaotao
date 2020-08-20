@@ -5,7 +5,7 @@
                <span>{{tip}}</span>
            </template>
          </order-header>
-         <router-vue></router-vue>
+         <router-view></router-view>
           <service-bar></service-bar>
         <nav-footer></nav-footer>
     </div>

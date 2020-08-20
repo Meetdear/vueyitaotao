@@ -99,7 +99,7 @@
       btnType="1" 
       modalType="middle" 
       v-bind:showModal="showModal"
-      v-on:submit="goToCart"
+      v-on:submit="goToCart()"
       v-on:cancel="showModal=false"
       >
       <template v-slot:body>
@@ -114,16 +114,16 @@ import ServiceBar from './../components/ServiceBar'
 //子定义模态框
 import Modal from './../components/Modal'
 // 引入轮播组件
-import { Swiper, SwiperSlide,  directive } from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide,} from 'vue-awesome-swiper'
 // 找到该文件
  //import '_swiper@5.4.5@swiper/css/swiper.css'
-import 'swiper/css/swiper.css'
-export default{
+ import 'swiper/css/swiper.css'
+export default {
     name:'index',
     components:{
          Swiper,
          SwiperSlide,
-          directive,
+        //   directive,
           ServiceBar,
           Modal
     },
@@ -135,8 +135,8 @@ export default{
           effect:"cube",
           cubeEffect: {
     //默认就是true
-    // slideShadows: true,
-    // shadow: true,
+    slideShadows: true,
+    shadow: true,
     shadowOffset: 100,
     shadowScale: 0.6
   },
@@ -250,7 +250,7 @@ export default{
       },
        //添加购物车事件
       addCart(id){  
-       this.axios.post('/cart',{
+       this.axios.post('/carts',{
               productId:id,
               selected:true
           }).then((res)=>{

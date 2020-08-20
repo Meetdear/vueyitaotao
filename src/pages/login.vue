@@ -114,7 +114,7 @@ export default {
             username:'',
             password:'',
             userId:'',
-            res:{}
+            // res:{}
         }
     },
     methods:{
@@ -124,19 +124,19 @@ export default {
             this.axios.post('/user/login',{
                 username,
                 password
-            }).then((res)=>{
+            }).then(res=>{
                this.$cookie.set('userId',res.id,{expires:'Session'});
             //    this.$store.dispatch('saveUserName',res.username);
             this.saveUserName(res.username);
                //to-do
                
-                // this.$router.push('/index');
-                this.$router.push({
-                    path:'/index',
-                    query:{//query其实是get传参 params
-                        form:'login'
-                    }
-                });
+                // // this.$router.push('/index');
+                // this.$router.push({
+                //     path:'index',
+                //     query:{//query其实是get传参 params
+                //         form:'login'
+                //     }
+                // });
                 this.$router.push({
                    name:'index',
                     params:{//query其实是get传参 params是post传参
@@ -147,11 +147,11 @@ export default {
         },
         ...mapActions(['saveUserName']),
         register(){
-            this.axios.post('user/register',{
+            this.axios.post('/user/register',{
                 username:'admin1',
                 password:'admin1',
                 email:'admin1@163.com'
-            }).then((res)=>{// res=> 有vuexlink会报错
+            }).then(()=>{// res=> 有vuexlink会报错
                this.$message.success('注册成功')
             })
         }
