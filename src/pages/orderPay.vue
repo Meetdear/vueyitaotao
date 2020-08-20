@@ -21,7 +21,7 @@
               <p>订单详情<em class="icon-down" :class="{'up':showDetail}" @click="showDetail=!showDetail"></em></p>
             </div>
           </div>
-          <div class="item-detail">
+          <div class="item-detail" v-if="showDetail">
             <div class="item">
               <div class="detail-title">订单号:</div>
               <div class="detail-info theme-color">{{orderNo}}</div>
@@ -51,7 +51,7 @@
           <div class="pay-way">
             <p>支付平台</p>
             <div class="pay pay-ali" :class="{'checked':payType==1}" @click="paySubmit(1)"></div>
-            <div class="pay pay-wechat" :class="{'checked':payType==2}"@click="paySubmit(2)"></div>
+            <div class="pay pay-wechat" :class="{'checked':payType==2}" @click="paySubmit(2)"></div>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default {
   mounted(){
    this.getOrderDetail();
   },
-  methods:{
+  methods:{  
      getOrderDetail(){
         this.axios.get(`/orders/${this.orderNo}`).then((res)=>{
          let item=res.shippingVo;
@@ -89,8 +89,13 @@ export default {
          ${item.receiverDistrict} ${item.receiverAddress}`
          this.orderDetail=res.orderItemVoList;
       })
-  }
-  }
-  
+  },
+  paySubmit(payType){
+    if(payType==1){
+      window.open('/#/order.alipay?orderId='+this.orderNo,'_blank')
+    }
+   }
+  } 
 }
 </script>
+

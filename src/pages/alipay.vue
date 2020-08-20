@@ -1,33 +1,45 @@
 <template>
-    <div class="ali-pay">
-      <div class="form" v-html=""></div>  
-    </div>
+  <div class="ali-pay">
+    <loading v-if="loading"></loading>
+    <div class="form" v-html="content"></div>
+  </div>
 </template>
+
 <script>
+import Loading from './../components/Loading';
 export default {
-    name:'alipay',
-   data(){
-       return{
-        orderId:this.$route.query.orderNo,
-        content:''
-       }
-     
-   },
-   mounted(){
-
-   },
-   methods:{
-       paySubmit(){
-           this.axios.post('/pay',{
-              orderId:this.orderId,
-              orderName:'Vue高仿米易商城', //扫码支付时订单名称
-              amount:0.01,//单位元
-              payType:1 //1支付宝，2微信
-
-           }).then((res)=>{
-               this.content=res.content;
-           })
-       }
-   }
+    name:"order-alipay",
+    data(){
+      return{
+        orderId:this.$route.query.orderId,
+        content:'',
+        loading:true
+      }
+    },
+    mounted(){
+      this.paySubmit()
+    },
+    components:{
+      Loading
+    },
+    methods:{
+      paySubmit(){
+        this.axios.post('/pay',{
+          orderId:this.orderId,
+          orderName:'爱啥啥商城',
+          amount:0.01,//单位元
+          payType:1// 1.支付宝  2.微信
+        }).then((res)=>{
+          this.content=res.content;
+          setTimeout(()=>{
+            document.forms[0].submit();
+          },100)
+        })
+      }
+    }
 }
 </script>
+
+<style>
+
+</style>
