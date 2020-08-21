@@ -5,7 +5,7 @@
         <template v-slot:tip>
             <span>请谨防钓鱼链接和订单支付,了解更多</span>
         </template>
-        </order-header>
+     </order-header>
     <div class="wrapper">
       <div class="container">
         <div class="order-wrap">
@@ -24,7 +24,7 @@
           <div class="item-detail" v-if="showDetail">
             <div class="item">
               <div class="detail-title">订单号:</div>
-              <div class="detail-info theme-color">{{orderNo}}</div>
+              <div class="detail-info theme-color">{{orderId}}</div>
             </div>
             <div class="item">
               <div class="detail-title">收货信息: </div>
@@ -56,8 +56,10 @@
         </div>
       </div>
     </div>
-    <scan-pay-code></scan-pay-code>
-    <modal>
+    <scan-pay-code v-if="showPay" @close="closePayModal" :img="payImg"></scan-pay-code>
+    <modal 
+     title="支付确认"
+     btnType='3'>
       <template>
         <p>
           您确认是否完成支付?
@@ -67,15 +69,20 @@
   </div>
 </template>
 <script>
+import QRCode from 'qrcode'
+import  ScanPayCode from './../components/ScanPayCode'
+import Modal from './../components/Modal'
 export default {
     name:' order-pay',
    data(){
        return{
-       orderNo:this.$route.query.orderNo,
+       orderId:this.$route.query.orderId,
         addressInfo:'',//收货人地址
         orderDetail:[],//订单详情 包含商品列表
         showDetail:false, //是否显示订单详情
         payType:'',//支付类型
+         showPay:false,//是否显示微信支付弹框
+         payImg:'' //微信支付的二维码
        }
    },
   mounted(){
@@ -83,7 +90,7 @@ export default {
   },
   methods:{  
      getOrderDetail(){
-        this.axios.get(`/orders/${this.orderNo}`).then((res)=>{
+        this.axios.get(`/orders/${this.orderId}`).then((res)=>{
          let item=res.shippingVo;
          this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity}
          ${item.receiverDistrict} ${item.receiverAddress}`
@@ -92,10 +99,164 @@ export default {
   },
   paySubmit(payType){
     if(payType==1){
-      window.open('/#/order.alipay?orderId='+this.orderNo,'_blank')
+      window.open('/#/order.alipay?orderId='+this.orderId,'_blank')
+    } else{
+      this.axios.post('/pay',{
+          orderId:this.orderId,
+          orderName:'爱啥啥商城',
+          amount:0.01,//单位元
+          payType:1// 1.支付宝  2.微信
+        }).then((res)=>{
+          // this.content=res.content;
+          // setTimeout(()=>{
+          //   document.forms[0].submit();
+          // },100)
+          // bais64位string  如果是图片的话非常郝代宽
+          ORCode.toDataURL(res.content)
+          .then(url=>{
+            // console.log(url)
+            this.showPay=true;
+            this.payImg=url;
+          })
+          .catch(()=>{
+            this.$message.error('微信二维码生成失败,请销后重试');
+            // console.error(err)
+          })
+        })
     }
+   },
+  // 关闭微信弹框
+   closePayMdal(){
+  this.showPay=false;
    }
   } 
 }
 </script>
+
+<style lang="scss">
+     .order-pay {
+         .wrapper{
+             background-color: #f5f5f5;
+             padding-top: 30px;
+             padding-bottom: 61px;
+            .order-wrap{
+            padding:62px 50px;
+            background-color: #fff;
+            font-size:14px;
+            margin-bottom: 30px;
+           .item-order{
+             display: flex;
+             align-items:center;
+             .icon-success{
+               width:90px;
+               height:90px;
+               border-radius:50%;
+               background: url('/imgs/icon-gou.png') no-repeat center center #80c58a;
+               background-size: 60px;
+               margin-right:40px;
+             }
+             .order-info{
+               margin-right:248px;
+             h2{
+               font-size:24px;
+               color:#333333;
+               margin-bottom: 20px;
+             }
+               p{
+               color:#666666;
+               span{
+                 color:#FF6700;
+               }
+             }        
+            }
+            .order-total{
+              &>p:first-child{
+                margin-bottom: 30px;
+              }
+              span{
+                font-size:28px;
+                color:#FF6700;
+              }
+              .icon-down{
+                display: inline-block;
+                width:14px;
+                height:10px;
+                background: url('/imgs/icon-down.png') no-repeat center;
+                box-sizing: contain;
+                margin-left:9px;
+                transition: all .5s;
+                cursor: pointer;
+                &.up{
+                  transform: rotate(180deg);
+                }
+              }
+              .icon-up{
+                transform:rotate(180px);
+              }
+            }
+          }
+          .item-detail{
+            border-top:1px solid #d7d7d7;
+            padding-top:47px;
+            padding-left:130px;
+           font-size:14px;
+           margin-top:45px;
+           .item{
+             margin-bottom: 19px;
+             .detail-title{
+               float: left;
+               width:100px;
+             }
+             .detail-info{
+               display: inline-block;
+               img{
+                 width:30px;
+                 vertical-align: middle;
+               }
+             }
+           }
+          }
+        }
+        .item-pay{
+          padding: 26px 50px 72px ;
+          background-color: #fff;
+          color:#333333;    
+        h3{
+          font-size:20px;
+          font-weight: 200;
+          color:#333333;
+          padding-bottom:24px;
+          border-bottom:1px solid #d7d7d7;
+          margin-bottom: 26px;
+        }
+        .pay-way{
+          font-size:18px;
+          .pay{
+            display: inline-block;
+            width:188px;
+            height:64px;
+            border:1px solid #d7d7d7;
+            cursor:pointer;
+            &:last-child{
+              margin-left:20px;
+            }
+            &.checked{
+              border:1px solid #FF6700;
+            }
+          }
+          .pay-ali{
+            background: url('/imgs.pay/icon-all.png') no-repeat center;
+            background-size:103px 38px;
+            margin-top:19px;
+
+          }
+          .pay-wechart{
+            background: url('/imgs.pay/icon-wechart.png') no-repeat center center;
+            background-size: 103px 38px;
+          }
+        }
+      }
+     }
+   }
+</style>
 

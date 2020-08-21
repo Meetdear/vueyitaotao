@@ -331,7 +331,7 @@ export default {
               width:271px;
               height:180px;
               border:1px solid #E5E5E5;
-              margin-right: 15px;
+              margin:15px 15px 0 0;
               padding: 15px 24px;
               font-size: 14px;
               color:#757575;

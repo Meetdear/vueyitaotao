@@ -116,7 +116,7 @@ import Modal from './../components/Modal'
 // 引入轮播组件
 import { Swiper, SwiperSlide,} from 'vue-awesome-swiper'
 // 找到该文件
- //import '_swiper@5.4.5@swiper/css/swiper.css'
+//  import '_swiper@5.4.5@swiper/css/swiper.css'
  import 'swiper/css/swiper.css'
 export default {
     name:'index',
