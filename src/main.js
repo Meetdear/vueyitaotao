@@ -29,24 +29,26 @@ axios.interceptors.response.use(function(response) {
     let path = location.hash;
     if (res.status == 0) {
         return res.data;
-
     } else if (res.status == 10) {
         //判断如果是首页就不跳转 是的话就跳转
         if (path != '#/index') {
             window.location.href = '/#/login';
-            return Promise.reject(res);
         }
-
+        return Promise.reject(res);
     } else {
         //reject 抛出异常 报错
         Message.warning(res.msg)
         return Promise.reject(res);
     }
+}, (err) => {
+    let res = err.response;
+    Message.error(res.data.message);
+    return Promise.reject(err);
 });
 // 加载插件  把插件,加载到vue 实例中去
 Vue.use(VueAxios, axios);
 Vue.use(VueCookie);
-Vue.use(Message);
+// Vue.use(Message);
 // Vue.use(Message); //这里加入原型后,不用再次加入实例了.否则会出现bug 每次进入自动执行message
 Vue.use(VueLazyLoad, {
         loading: '/imgs/loading-svg/loading-bars.svg'

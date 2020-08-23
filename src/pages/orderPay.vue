@@ -1,11 +1,11 @@
 <template>
    <div class="order-pay">
-     <order-header
+     <!-- <order-header
         title='订单支付'>
         <template v-slot:tip>
             <span>请谨防钓鱼链接和订单支付,了解更多</span>
         </template>
-     </order-header>
+     </order-header> -->
     <div class="wrapper">
       <div class="container">
         <div class="order-wrap">
@@ -59,8 +59,13 @@
     <scan-pay-code v-if="showPay" @close="closePayModal" :img="payImg"></scan-pay-code>
     <modal 
      title="支付确认"
-     btnType='3'>
-      <template>
+     btnType='3'
+     :showModal="showPayModal"
+     sureText='查看订单'
+     cancelText="未支付"
+     @cancel="showPayModal=false"
+     @submit="goOrderList">
+      <template v-slot:body>
         <p>
           您确认是否完成支付?
         </p>
@@ -70,19 +75,26 @@
 </template>
 <script>
 import QRCode from 'qrcode'
+import OrderHeader from './../components/OrderHeader'
 import  ScanPayCode from './../components/ScanPayCode'
 import Modal from './../components/Modal'
 export default {
-    name:' order-pay',
+    name:'order-pay',
+     components:{
+      ScanPayCode,Modal,OrderHeader
+    },
    data(){
        return{
-       orderId:this.$route.query.orderId,
+        orderId:this.$route.query.orderNo,
         addressInfo:'',//收货人地址
         orderDetail:[],//订单详情 包含商品列表
         showDetail:false, //是否显示订单详情
-        payType:'',//支付类型
-         showPay:false,//是否显示微信支付弹框
-         payImg:'' //微信支付的二维码
+        payType:0,//支付类型
+        showPay:false,//是否显示微信支付弹框
+        payImg:'',//微信支付的二维码
+        showPayModal:false,//是否显示二次支付确认弹框
+        T:''//定时器id
+
        }
    },
   mounted(){
@@ -105,20 +117,21 @@ export default {
           orderId:this.orderId,
           orderName:'爱啥啥商城',
           amount:0.01,//单位元
-          payType:1// 1.支付宝  2.微信
+          payType:2// 1.支付宝  2.微信
         }).then((res)=>{
           // this.content=res.content;
           // setTimeout(()=>{
           //   document.forms[0].submit();
           // },100)
           // bais64位string  如果是图片的话非常郝代宽
-          ORCode.toDataURL(res.content)
+          QRCode.toDataURL(res.content)
           .then(url=>{
             // console.log(url)
             this.showPay=true;
             this.payImg=url;
+            this.loopOrderState()
           })
-          .catch(()=>{
+          .catch((err)=>{
             this.$message.error('微信二维码生成失败,请销后重试');
             // console.error(err)
           })
@@ -126,9 +139,26 @@ export default {
     }
    },
   // 关闭微信弹框
-   closePayMdal(){
-  this.showPay=false;
-   }
+   closePayModal(){
+     this.showPay=false;
+     this.showPayModal=true;
+      clearInterval(this.T);
+   },
+    //轮询当前订单支付状态
+   loopOrderState(){
+      this.T=setInterval(()=>{
+        this.axios.get(`/orders/${this.orderId}`).then((res)=>{
+          if(res.status==20){
+            clearInterval(this.T);
+            this.goOrderList();//返回商品列表页面
+          }
+        })
+      },1000);
+   },
+  
+    goOrderList(){
+        this.$router.push('/order/list');
+    }
   } 
 }
 </script>
@@ -245,13 +275,13 @@ export default {
             }
           }
           .pay-ali{
-            background: url('/imgs.pay/icon-all.png') no-repeat center;
+            background: url('/imgs/pay/icon-ali.png') no-repeat center;
             background-size:103px 38px;
             margin-top:19px;
 
           }
-          .pay-wechart{
-            background: url('/imgs.pay/icon-wechart.png') no-repeat center center;
+          .pay-wechat{
+            background: url('/imgs/pay/icon-wechat.png') no-repeat center center;
             background-size: 103px 38px;
           }
         }
