@@ -73,16 +73,24 @@
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
+import {Pagination,Button} from 'element-ui'
 export default {
     name:'order-list',
     components:{
        OrderHeader,
-       Loading  
+       Loading  ,
+       NoData,
+      //  动态加载一个变量的方式
+      [Pagination.name]:Pagination,
+      [Button.name]:Button
     },
   data(){
     return {
-      loading:true,
-      list:[]
+      loading:false,
+      list:[],
+      pageSize:10,
+      pageNum:1,
+      total:0
     }
   },
   mounted(){
@@ -90,9 +98,17 @@ export default {
   },
   methods:{
     getOrderList(){
-      this.axios.get('/orders').then(()=>{
+      this.loading=true;
+      this.axios.get('/orders',{
+        params:{
+          pageSize:10,
+          pageSize:this.pageNum
+        }
+      }).then((res)=>{
         this.loading=false;
-        this.list=res.list;  
+        this.list=res.list.concata(res.list);  
+        this.total=res.total;
+        this.busy=false;
       }).catch(()=>{
         this.loading=false;
       })
@@ -112,6 +128,14 @@ export default {
             orderNo
           }
       })
+    },
+    handleChange(pageNum){
+      this.pageNum=pageNum
+      this.getOrderList();
+    },
+    loadMore(){
+      this.pageNum++;
+      this.getOrderList();
     }
   }
 }

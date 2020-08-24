@@ -84,7 +84,7 @@
                          <div class="item-info">
                              <h3>{{item.name}}</h3>
                              <p>{{item.subtitle}}</p>
-                        <p class="price" @click="addCart(id)">{{item.price}}元</p>
+                        <p class="price" @click="addCart(item.id)">{{item.price}}元</p>
                   </div>
                 </div>
             </div>
@@ -152,29 +152,6 @@ export default {
       prevEl: '.swiper-button-prev',
       }
    },
-     //    轮播数组，本地
-    slideList:[
-        {
-         id:'42',
-         img:'/imgs/slider/slide-1.jpg'
-    },
-        {
-         id:'45',
-         img:'/imgs/slider/slide-2.jpg'
-    },
-        {
-         id:'46',
-         img:'/imgs/slider/slide-3.jpg'
-    },
-        {
-         id:'',
-         img:'/imgs/slider/slide-4.jpg'
-    },
-        {
-         id:'',
-         img:'/imgs/slider/slide-5.jpg'
-    }
-    ],
      //    列表数组
     menuList:[
         [
@@ -202,12 +179,32 @@ export default {
                 name:'移动4G专区',
 
             },
-            
-          
-
         ], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0],
     ],
 
+     //    轮播数组，本地
+    slideList:[
+        {
+         id:'42',
+         img:'/imgs/slider/slide-1.jpg'
+    },
+        {
+         id:'45',
+         img:'/imgs/slider/slide-2.jpg'
+    },
+        {
+         id:'46',
+         img:'/imgs/slider/slide-3.jpg'
+    },
+        {
+         id:'',
+         img:'/imgs/slider/slide-4.jpg'
+    },
+        {
+         id:'',
+         img:'/imgs/slider/slide-5.jpg'
+    }
+    ],
     adsList:[
         {
             id:33,

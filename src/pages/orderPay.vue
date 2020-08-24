@@ -113,7 +113,7 @@ export default {
   },
   paySubmit(payType){
     if(payType==1){
-      window.open('/#/order.alipay?orderId='+this.orderId,'_blank')
+      window.open('/order.alipay?orderId='+this.orderId,'_blank');
     } else{
       this.axios.post('/pay',{
           orderId:this.orderId,
@@ -137,8 +137,9 @@ export default {
             this.$message.error('微信二维码生成失败,请销后重试');
             // console.error(err)
           })
-        })
+        });
     }
+      this.payType=payType;
    },
   // 关闭微信弹框
    closePayModal(){

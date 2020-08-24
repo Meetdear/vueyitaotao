@@ -34,7 +34,7 @@ export default {
            setTimeout(()=>{
                document.forms[0].submit();
           },100)
-           })
+         })
        }
    }
 }

@@ -17,5 +17,10 @@
       font-size:20px;
       color:#999999;
       margin:50px 0;
+      img{
+        width:240px;
+        height:180px;
+        margin-bottom: 30px;
+      }
   }
 </style>
