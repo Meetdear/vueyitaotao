@@ -1,11 +1,11 @@
 <template>
    <div class="order-pay">
-     <!-- <order-header
+     <order-header
         title='订单支付'>
         <template v-slot:tip>
             <span>请谨防钓鱼链接和订单支付,了解更多</span>
         </template>
-     </order-header> -->
+     </order-header>
     <div class="wrapper">
       <div class="container">
         <div class="order-wrap">
@@ -17,7 +17,7 @@
               <p>收货信息:{{addressInfo}}</p>
             </div>
             <div class="order-total">
-              <p>应付总额: <span></span> 元</p>
+              <p>应付总额: <span>{{payment}}</span> 元</p>
               <p>订单详情<em class="icon-down" :class="{'up':showDetail}" @click="showDetail=!showDetail"></em></p>
             </div>
           </div>
@@ -92,6 +92,7 @@ export default {
         payType:0,//支付类型
         showPay:false,//是否显示微信支付弹框
         payImg:'',//微信支付的二维码
+        payment:0,//总金额
         showPayModal:false,//是否显示二次支付确认弹框
         T:''//定时器id
 
@@ -107,6 +108,7 @@ export default {
          this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity}
          ${item.receiverDistrict} ${item.receiverAddress}`
          this.orderDetail=res.orderItemVoList;
+         this.payment=res.payment;
       })
   },
   paySubmit(payType){

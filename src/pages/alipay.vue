@@ -7,7 +7,7 @@
 <script>
 import Loading from './../components/Loading'
 export default {
-    name:'alipay',
+    name:'order-alipay',
     components:{
         Loading
     },
