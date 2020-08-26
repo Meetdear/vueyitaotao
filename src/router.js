@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import Home from './pages/home.vue'
 import Login from './pages/login.vue'
 import Index from './pages/index.vue'
@@ -12,69 +12,86 @@ import OrderList from './pages/orderList.vue'
 import OrderPay from './pages/orderPay.vue'
 import AliPay from './pages/alipay.vue'
 
+// 加载vue Router
+Vue.use(VueRouter)
 
-Vue.use(Router);
-export default new Router({
-    routes: [{
+const routes = [{
+            // 设置路由路径
             path: '/',
+            //设置路由名称
             name: 'home',
+            // 导入该组件
             component: Home,
-            redirect: '/index',
+            // 重定向
+            redirect: "/index",
             children: [{
-                    path: '/index',
-                    name: 'index',
-                    component: Index,
+                    path: "/index",
+                    name: "index",
+                    component: Index
                 },
                 {
-                    path: '/product/:id',
-                    name: 'product',
-                    component: Product,
-
+                    path: "/product/:id",
+                    name: "product",
+                    component: () =>
+                        import ('./pages/product.vue')
                 },
                 {
-                    path: '/detail/:id',
-                    name: 'detail',
-                    component: Detail,
-
-                },
-                {
-                    path: '/login',
-                    name: 'login',
-                    component: Login,
-                },
+                    path: "/detail/:id",
+                    name: "detail",
+                    component: () =>
+                        import ('./pages/detail.vue')
+                }
             ]
         },
         {
-            path: '/cart',
-            name: 'cart',
-            component: Cart,
+            path: "/cart",
+            name: "cart",
+            component: () =>
+                import ('./pages/cart.vue')
         },
         {
-            path: '/order',
-            name: 'order',
-            component: Order,
+            path: "/order",
+            name: "order",
+            component: () =>
+                import ('./pages/order.vue'),
             children: [{
-                    path: 'list',
-                    name: 'order-list',
-                    component: OrderList,
+                    path: "list",
+                    name: "order-list",
+                    component: () =>
+                        import ('./pages/orderList.vue')
                 },
                 {
-                    path: 'confirm',
-                    name: 'order-confirm',
-                    component: OrderConfirm,
+                    path: "confirm",
+                    name: "order-confirm",
+                    component: () =>
+                        import ('./pages/orderConfirm.vue')
                 },
                 {
-                    path: 'pay',
-                    name: 'order-pay',
-                    component: OrderPay,
+                    path: "pay",
+                    name: "order-pay",
+                    component: () =>
+                        import ('./pages/orderPay.vue')
                 },
                 {
-                    path: 'alipay',
-                    name: 'alipay',
-                    component: AliPay,
-
-                },
+                    path: "alipay",
+                    name: "alipay",
+                    component: () =>
+                        import ('./pages/alipay.vue')
+                }
             ]
         },
+        {
+            path: "/login",
+            name: "login",
+            component: () =>
+                import ('./pages/login.vue')
+        }
     ]
-});
+    // 把把自定义的Router对象 放置到vue 实例中去
+const router = new VueRouter({
+        // 去除#号
+        mode: "history",
+        routes
+    })
+    // 导出 常量接收路由组 最后导出去 
+export default router

@@ -5,7 +5,7 @@
     </div>
 </template>
 <script>
-import Loading from './../components/Loading'
+import Loading from './../components/Loading';
 export default {
     name:'order-alipay',
     components:{
@@ -25,7 +25,7 @@ export default {
        paySubmit(){
            this.axios.post('/pay',{
               orderId:this.orderId,
-              orderName:'Vue高仿米易商城', //扫码支付时订单名称
+              orderName:'爱啥啥商品', //扫码支付时订单名称
               amount:0.01,//单位元
               payType:1 //1支付宝，2微信
 

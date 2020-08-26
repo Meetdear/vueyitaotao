@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-export default {
+export default{
     name:'scan-pay-code',  
     props:['img'],
     methods:{

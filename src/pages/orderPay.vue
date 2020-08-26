@@ -35,8 +35,8 @@
               <div class="detail-info">
                 <ul>
                   <li v-for="(item,index) in orderDetail" :key="index">
-                    <img v-lazy="item.productImage"/>{{item.productName}}
-                  </li>
+                    <img v-lazy="item.productImage">{{item.productName}}
+                  </li>   
                 </ul>
               </div>
             </div>
@@ -65,7 +65,7 @@
      cancelText="未支付"
      @cancel="showPayModal=false"
      @submit="goOrderList">
-      <template v-slot:body>
+      <template>
         <p>
           您确认是否完成支付?
         </p>
@@ -113,7 +113,7 @@ export default {
   },
   paySubmit(payType){
     if(payType==1){
-      window.open('/order.alipay?orderId='+this.orderId,'_blank');
+      window.open('/order/alipay?orderId='+this.orderId,'_blank');
     } else{
       this.axios.post('/pay',{
           orderId:this.orderId,
@@ -126,8 +126,7 @@ export default {
           //   document.forms[0].submit();
           // },100)
           // bais64位string  如果是图片的话非常郝代宽
-          QRCode.toDataURL(res.content)
-          .then(url=>{
+          QRCode.toDataURL(res.content).then(url=>{
             // console.log(url)
             this.showPay=true;
             this.payImg=url;
@@ -142,10 +141,11 @@ export default {
       this.payType=payType;
    },
   // 关闭微信弹框
+   //子父传参
    closePayModal(){
-     this.showPay=false;
-     this.showPayModal=true;
-      clearInterval(this.T);
+     this.showPay=false;//关闭微信弹窗
+     this.showPayModal=true;//打开询问弹框
+      clearInterval(this.T);//当关闭微信弹框时.清除计时器
    },
     //轮询当前订单支付状态
    loopOrderState(){
@@ -158,7 +158,7 @@ export default {
         })
       },1000);
    },
-  
+    //去到商品列表页面
     goOrderList(){
         this.$router.push('/order/list');
     }
@@ -215,7 +215,7 @@ export default {
                 width:14px;
                 height:10px;
                 background: url('/imgs/icon-down.png') no-repeat center;
-                box-sizing: contain;
+                background-size: contain;
                 margin-left:9px;
                 transition: all .5s;
                 cursor: pointer;

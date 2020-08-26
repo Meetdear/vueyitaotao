@@ -1,161 +1,210 @@
 <template>
-<div class="box">
-<div class="bg-img">
+  <div class="login">
     <div class="container">
-        <div class="login-form">
-            <h3>
-                <span class="checked">账号登录</span>
-                <span class="sep-line">|</span>
-                <span class="userRegister">用户注册</span>
-            </h3>
-            <div class="input">
-                <input type="text" placeholder="请输入账号" v-model="username">
-            </div>
-            <div class="input">
-                <input type="password" placeholder="请输入密码" v-model="password">
-            </div>
-            <div class="btn-box">
-                <a href="javacript:;" class="btn" @click="login"> 登录</a>
-            </div>
-            <div class="tips">
-                <div class="sms" @click="register">手机短信登录/注册</div>
-                <div class="reg">立即注册 <span>|</span> 忘记密码</div>
-            </div>
-        </div>
+      <!-- //#index -->
+      <a href="/index">
+        <img src="/imgs/login-logo.png" alt />
+      </a>
     </div>
- </div>
- </div>
+    <div class="wrapper">
+      <div class="container">
+        <div class="login-form">
+          <h3>
+            <span class="checked">帐号登录</span>
+            <span class="sep-line">|</span>
+            <span>扫码登录</span>
+          </h3>
+          <div class="input">
+            <input type="text" placeholder="请输入帐号" v-model="username" />
+          </div>
+          <div class="input">
+            <input type="password" placeholder="请输入密码" v-model="password" />
+          </div>
+          <div class="btn-box">
+            <a href="javascript:;" class="btn" @click="login">登录</a>
+          </div>
+          <div class="tips">
+            <div class="sms" @click="register">手机短信登录/注册</div>
+            <div class="reg">
+              立即注册
+              <span>|</span>忘记密码？
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footer-link">
+        <a href="https://www.imooc.com/u/1343480" target="_blank">小米商城</a>
+        <span>|</span>
+        <a href="https://coding.imooc.com/class/113.html" target="_blank">MiMu</a>
+        <span>|</span>
+        <a href="https://coding.imooc.com/class/236.html" target="_blank">小米商城用户协议</a>
+        <span>|</span>
+        <a href="https://coding.imooc.com/class/343.html" target="_blank">本页面解释权归MiMall杭州小米公司所有</a>
+      </div>
+      <p class="copyright">Copyright ©2019 mi.futurefe.com All Rights Reserved.</p>
+    </div>
+  </div>
 </template>
-<style lang="scss">
-    .box{
-        .bg-img{
-              background:url('/imgs/login-bg.jpg') no-repeat center;
-             .container{
-                 width:1226px;
-                 height:576px;
-                 .login-form{
-                    display: inline-block;
-                     position: absolute;
-                    width:410px;
-                    height:510px;
-                    bottom: 29px;
-                    right:0;
-                    background-color: #fff;
-                    h3{  
-                        font-weight: 500;
-                        text-align: center;
-                        color:#666;
-                        font-size:24px;
-                        padding:27px 0 24px;
-                        .checked{
-                           color: #f60;
-                        }
-                       .sep-line{
-                               width: 1px;
-                                height: 24px;
-                                margin: 0 35px 0 42px;
-                       }
-                    }
-                      .input{
-                            display:inline-block;
-                              width:348px;
-                            height:50px;
-                            border:1px solid #E5E5E5;
-                                margin-bottom:20px;
-                               margin-left:30px;
-                          input{
-                                width: 100%;
-                                height: 100%;
-                                border: none;
-                                padding: 18px; 
-                          }
-                      }
-                      .btn-box{
-                         .btn{
-                       width:348px;
-                      line-height:50px;
-                      margin-top:10px;
-                      font-size:16px;
-                      height:50px;
-                      margin-left:30px;
-                       
-                      }
-
-                      }
-                      .tips{
-                          .sms{
-                              width:100%;
-                             
-                              text-align: center;
-                              font-size:14px;
-                              color:#ff7600;   
-                              margin-top:15px 
-                          }
-                           .reg{
-                              width:100%;
-                              color:#999;
-                              text-align: center;
-                              font-size:14px;
-                              margin-top:30px 
-                          }
-                      }
-                  
-                 }
-             }
-        }
-    }
-</style>
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from "vuex";
 export default {
-    name:'login',
-    data(){
-        return{
-            username:'',
-            password:'',
-            userId:'',
-            // res:{}
-        }
-    },
-    methods:{
-        login(){
-            //es6的数组解构
-            let {username,password}=this;
-            this.axios.post('/user/login',{
-                username,
-                password
-            }).then(res=>{
-               this.$cookie.set('userId',res.id,{expires:'Session'});
-            //    this.$store.dispatch('saveUserName',res.username);
-            this.saveUserName(res.username);
-               //to-do
-               
-                // // this.$router.push('/index');
-                // this.$router.push({
-                //     path:'index',
-                //     query:{//query其实是get传参 params
-                //         form:'login'
-                //     }
-                // });
-                this.$router.push({
-                   name:'index',
-                    params:{//query其实是get传参 params是post传参
-                        form:'login'
-                    }
-                });
-            })
-        },
-        ...mapActions(['saveUserName']),
-        register(){
-            this.axios.post('/user/register',{
-                username:'admin1',
-                password:'admin1',
-                email:'admin1@163.com'
-            }).then(()=>{// res=> 有vuexlink会报错
-               this.$message.success('注册成功')
-            })
-        }
-    }
+  name: "login",
+  data() {
+    return {
+      username: "",
+      password: "",
+      userId: "",
 
-}
+    };
+  },
+  methods: {
+    //   定义发送请求函数
+    login() {
+      // ES6结构
+      let { username, password } = this;
+      this.axios
+        .post("/user/login", {
+          username,
+          password
+        })
+        .then((res) => {
+          // 利用env的请求拦截.当有res说明响应成功
+          // 响应成功后就自动返回index页面
+          // console.log(res)
+          // 利用cookie插件把请求回来的参数.保存到本地
+          this.$cookie.set("userId", res.id,{ expires: "Session" });
+          // 用vuex 通过dispatch 触发action中的自定义函数,传输请求回来的数据
+          // this.$store.dispatch('saveUserName',res.username)
+          this.saveUserName(res.username); //mapActions方法结构出来
+          this.$router.push({
+            name: "index",
+            // from: "login"
+             params:{
+            from:'login'
+          }
+          });
+        });
+    },
+    ...mapActions(["saveUserName"]),
+    //注册功能
+    register() {
+      this.axios
+        .post("/user/register", {
+          username: "admin1",
+          password: "admin1",
+          email: "admin1@163.com"
+        })
+        .then(() => {
+          this.$message.success("注册成功");
+        });
+    }
+  }
+};
 </script>
+<style lang="scss">
+.login {
+  & > .container {
+    height: 113px;
+    img {
+      width: auto;
+      height: 100%;
+    }
+  }
+  .wrapper {
+    background: url("/imgs/login-bg.jpg") no-repeat center;
+    .container {
+      height: 576px;
+      .login-form {
+        box-sizing: border-box;
+        padding-left: 31px;
+        padding-right: 31px;
+        width: 410px;
+        height: 510px;
+        background-color: #ffffff;
+        position: absolute;
+        bottom: 29px;
+        right: 0;
+        h3 {
+          line-height: 23px;
+          font-size: 24px;
+          text-align: center;
+          margin: 40px auto 49px;
+          .checked {
+            color: #ff6600;
+          }
+          .sep-line {
+            margin: 0 32px;
+          }
+        }
+        .input {
+          display: inline-block;
+          width: 348px;
+          height: 50px;
+          border: 1px solid #e5e5e5;
+          margin-bottom: 20px;
+          input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 18px;
+          }
+        }
+        .btn-box {
+          .btn {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            margin-top: 10px;
+            font-size: 16px;
+          }
+        }
+        .tips {
+          margin-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          cursor: pointer;
+          .sms {
+            color: #ff6600;
+          }
+          .reg {
+            color: #999999;
+            span {
+              margin: 0 7px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .footer {
+    height: 100px;
+    padding-top: 60px;
+    color: #999999;
+    font-size: 16px;
+    text-align: center;
+    background-color: #fff;
+    border-top:0;
+    .footer-link {
+      a {
+        color: #999999;
+        display: inline-block;
+        &:hover {
+          color: #ff6600;
+        }
+      }
+      span {
+        margin: 0 10px;
+      }
+    }
+    .copyright {
+      margin-top: 13px;
+      &:hover {
+        color: #ff6600;
+      }
+    }
+  }
+}
+</style> 

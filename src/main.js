@@ -1,24 +1,25 @@
 import Vue from 'vue'
-import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import App from './App.vue'
+import router from './router'
 import VueLazyLoad from 'vue-lazyload'
+import store from './store'
 import VueCookie from 'vue-cookie'
+import env from "./env"
 import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import store from './store'
-import App from './App.vue'
 //import是预编译加载 不希望永远被拦截所有不要用
 // import env from './env'
 //mock开关
 const mock = false;
 if (mock) {
-    require('./mock/api');
+    // require('./mock/api');
 }
 //根据前端的跨域方式做调整 /a/a : /api/a/b => /a/b
 // axios.defaults.baseURL = '/api'; //接口代理  
 axios.defaults.baseURL = '/api'; //接口代理
-axios.defaults.timeout = 8000;
+axios.defaults.timeout = 5000;
 //根据环境变量来获取不同的二请求地址
 // axios.defaults.baseURL = env.baseURL; //接口代理
 
@@ -26,13 +27,15 @@ axios.defaults.timeout = 8000;
 axios.interceptors.response.use(function(response) {
     let res = response.data;
     //地址栏有#就是hash哈希路由
-    let path = location.hash;
+    //let path = location.hash;///////////////////////////
+    //获取当前页面的路径名称//
+    let path = location.pathname; //
     if (res.status == 0) {
         return res.data;
     } else if (res.status == 10) {
         //判断如果是首页就不跳转 是的话就跳转
-        if (path != '#/index') {
-            window.location.href = '/#/login';
+        if (path != '/index') {
+            window.location.href = '/login';
         }
         return Promise.reject(res);
     } else {

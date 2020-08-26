@@ -6,13 +6,13 @@
                <div class="nav-menu">
                    <ul class="menu-wrap">
                        <li class="menu-item">
-                           <a href="javacript:;">手机  电话卡</a>
+                           <a href="javascript:;">手机  电话卡</a>
                            <div class="children">
-                               <ul v-for="(item,i) in menuList" :key="i">
+                               <ul v-for="(item,index) in menuList" :key="index">
                                    <li v-for="(sub,j) in item" :key="j">
                                           <!-- 判断当前sub 是否存在否则显示其他样式 -->
-                                       <a v-bind:href="sub?'/#/product/'+sub.id:''">
-                                           <img v-bind:src="sub?sub.img:'imgs/item-box-1.png'" >
+                                       <a :href="sub?'product/'+sub.id:''">
+                                           <img v-bind:src="sub?sub.img:'/imgs/item-box-1.png'" >
                                            {{sub?sub.name : '小米9'}}
                                        </a>
                                    </li>
@@ -45,7 +45,7 @@
       <!-- 轮播组件 -->
         <swiper  v-bind:options="swiperOption">
             <swiper-slide v-for="(item,index) in slideList" v-bind:key="index">
-                <a v-bind:href="'/#/product/'+item.id"><img v-bind:src="item.img"></a>
+                <a v-bind:href="'product/'+item.id"><img v-bind:src="item.img"></a>
             </swiper-slide>
               <!-- 轮播指示器 -->
              <div class="swiper-pagination" slot="pagination"></div>
@@ -54,12 +54,12 @@
         </swiper>
      </div>
            <div class="ads-box">
-               <a v-bind:href="'/#/product/'+item.id" v-for="(item,index) in adsList" v-bind:key="index">
+               <a v-bind:href="'product/'+item.id" v-for="(item,index) in adsList" v-bind:key="index">
                    <img v-lazy="item.img" alt="">
                </a>
            </div>
            <div class="banner">
-                <a href="/#/product/30">
+                <a href="product/30">
                    <img v-lazy="'imgs/banner-1.png'" alt="">
                </a>
            </div>
@@ -70,7 +70,7 @@
             <h2>手机</h2>
             <div class="wrapper">
                 <div class="banner-left">
-                    <a href="/#/product">
+                    <a href="product/35">
                        <img  v-lazy="'/imgs/mix-alpha.jpg'" alt=""> 
                     </a>
                 </div> 
