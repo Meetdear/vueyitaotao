@@ -1,4 +1,4 @@
-<template>
+   <template>
     <div class="cart">
          <order-header title="我的购物车">
            <template v-slot:tip>
@@ -108,6 +108,7 @@ export default {
            //选中状态 如果你当前是选中的.就改成非选中
                 selected=!item.productSelected;
          }
+        //  通过axios 
          this.axios.put(`/carts/${item.productId}`,{
              quantity,
              selected
@@ -138,10 +139,10 @@ export default {
         // this.checkedNum=res.cartTotalQuantity;
            this.checkedNum=this.list.filter(item=>item.productSelected).length//se6简写 因为只有一句话
            
-      },
+      }, 
         // 购物车下单
       order(){
-          //购物车列表每一项都是选中状态 加!则是取反
+          //every()为购物车列表每一项都是选中状态 加!则是取反
         let isCheck = this.list.every(item=>!item.productSelected);
         if(isCheck){
             // alert('请选择一件商品')

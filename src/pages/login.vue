@@ -79,9 +79,14 @@ export default {
           // this.$store.dispatch('saveUserName',res.username)
           this.saveUserName(res.username); //mapActions方法结构出来
           this.$router.push({
+        //  path:'/index',
+        //     query:{// 其实就是get传参 
+        //     from:'login'
+        //   }
+
             name: "index",
             // from: "login"
-             params:{
+             params:{//post
             from:'login'
           }
           });

@@ -20,6 +20,7 @@
          }
         },
         mounted(){
+          // 判断用户是否是登录状态
           if(this.$cookie.get('userId')){
             this.getUser();
             this.getCartCount();
