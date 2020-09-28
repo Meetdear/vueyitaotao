@@ -19,7 +19,7 @@ const routes = [{
             // 设置路由路径
             path: '/',
             //设置路由名称
-            name: 'home',
+            name: 'home', 
             // 导入该组件
             component: Home,
             // 重定向

@@ -145,7 +145,7 @@ export default {
      // 根据css类名设置
     el: '.swiper-pagination',
     clickable :true,
-  },
+  }, 
     //翻页
   navigation: {
       nextEl: '.swiper-button-next',

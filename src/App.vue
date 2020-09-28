@@ -7,7 +7,7 @@
     <router-view/>
   </div>
 </template>
- <script>
+ <script> 
       // import storage from './storage'
       export default{
         name:'app',

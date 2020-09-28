@@ -199,7 +199,7 @@ export default {
         &:hover {
           color: #ff6600;
         }
-      }
+      } 
       span {
         margin: 0 10px;
       }
